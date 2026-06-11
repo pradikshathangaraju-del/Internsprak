@@ -1,0 +1,43 @@
+@Service
+public class EmployeeService {
+
+    private static final Logger logger =
+        LoggerFactory.getLogger(EmployeeService.class);
+
+    @Autowired
+    private EmployeeRepository repository;
+
+    public Employee create(EmployeeDTO dto) {
+        logger.info("Creating employee: {}", dto.getName());
+
+        Employee employee = new Employee();
+        employee.setName(dto.getName());
+        employee.setDepartment(dto.getDepartment());
+        employee.setSalary(dto.getSalary());
+
+        Employee savedEmployee = repository.save(employee);
+
+        logger.info("Employee created successfully with ID: {}",
+                savedEmployee.getId());
+
+        return savedEmployee;
+    }
+
+    public Employee getById(Long id) {
+        logger.info("Fetching employee with ID: {}", id);
+
+        return repository.findById(id)
+                .orElseThrow(() -> {
+                    logger.error("Employee not found with ID: {}", id);
+                    return new RuntimeException("Employee not found");
+                });
+    }
+
+    public void delete(Long id) {
+        logger.warn("Deleting employee with ID: {}", id);
+
+        repository.deleteById(id);
+
+        logger.info("Employee deleted successfully: {}", id);
+    }
+}
