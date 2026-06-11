@@ -1,0 +1,40 @@
+@Service
+public class EmployeeService {
+
+    @Autowired
+    private EmployeeRepository repository;
+
+    public Employee create(EmployeeDTO dto) {
+        Employee employee = new Employee();
+        employee.setName(dto.getName());
+        employee.setDepartment(dto.getDepartment());
+        employee.setSalary(dto.getSalary());
+
+        return repository.save(employee);
+    }
+
+    public List<Employee> getAll() {
+        return repository.findAll();
+    }
+
+    public Employee getById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> 
+                new RuntimeException("Employee not found"));
+    }
+
+    public Employee update(Long id, EmployeeDTO dto) {
+        Employee employee = getById(id);
+
+        employee.setName(dto.getName());
+        employee.setDepartment(dto.getDepartment());
+        employee.setSalary(dto.getSalary());
+
+        return repository.save(employee);
+    }
+
+    public void delete(Long id) {
+        Employee employee = getById(id);
+        repository.delete(employee);
+    }
+}
