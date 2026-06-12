@@ -1,0 +1,64 @@
+@ExtendWith(MockitoExtension.class)
+class EmployeeServiceTest {
+
+    @Mock
+    private EmployeeRepository repository;
+
+    @InjectMocks
+    private EmployeeService service;
+
+    @Test
+    void shouldCreateEmployee() {
+
+        EmployeeDTO dto = new EmployeeDTO();
+        dto.setName("John");
+        dto.setDepartment("IT");
+        dto.setSalary(50000.0);
+
+        Employee employee = new Employee();
+        employee.setId(1L);
+        employee.setName("John");
+        employee.setDepartment("IT");
+        employee.setSalary(50000.0);
+
+        when(repository.save(any(Employee.class)))
+                .thenReturn(employee);
+
+        Employee result = service.create(dto);
+
+        assertNotNull(result);
+        assertEquals(1L, result.getId());
+        assertEquals("John", result.getName());
+
+        verify(repository, times(1))
+                .save(any(Employee.class));
+    }
+
+
+    @Test
+    void shouldReturnEmployeeById() {
+
+        Employee employee = new Employee();
+        employee.setId(1L);
+        employee.setName("Alice");
+
+        when(repository.findById(1L))
+                .thenReturn(Optional.of(employee));
+
+        Employee result = service.getById(1L);
+
+        assertEquals("Alice", result.getName());
+
+        verify(repository).findById(1L);
+    }
+
+
+    @Test
+    void shouldDeleteEmployee() {
+
+        service.delete(1L);
+
+        verify(repository, times(1))
+                .deleteById(1L);
+    }
+}
