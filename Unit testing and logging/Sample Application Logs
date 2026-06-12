@@ -1,0 +1,16 @@
+2026-06-11 10:15:20 [main] INFO  EmployeeService - Creating employee: John
+
+2026-06-11 10:15:20 [main] INFO  EmployeeService - Employee created successfully with ID: 1
+
+2026-06-11 10:18:30 [main] INFO  EmployeeService - Fetching employee with ID: 1
+
+2026-06-11 10:25:45 [main] WARN  EmployeeService - Deleting employee with ID: 1
+
+2026-06-11 10:25:45 [main] INFO  EmployeeService - Employee deleted successfully: 1src
+├── main
+│   └── resources
+│       └── logback-spring.xml
+│
+└── test
+    └── java
+        └── EmployeeServiceTest.java
